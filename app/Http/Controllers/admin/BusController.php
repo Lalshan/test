@@ -42,7 +42,7 @@ class BusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'bus_name' => 'required',
+            'bus_type' => 'required',
             'bus_code' => 'required',
             'operator_id' => 'required',
             'total_seats' => 'required',
@@ -52,7 +52,7 @@ class BusController extends Controller
 
         
         Bus::insert([
-            'bus_name' => $request-> bus_name,
+            'bus_type' => $request-> bus_type,
             'bus_code' => $request-> bus_code,
             'operator_id' => $request-> operator_id,
             'total_seats' => $request-> total_seats,

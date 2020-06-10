@@ -23,13 +23,14 @@
                           <tr>
                             <th>S.I</th>
                        
-                            <th>Bus Name</th>
+                            <th>Operator Name</th>
                         
                             <th>Bus Code</th>
                        
-                            <th>Operator Name</th>
+                            <th>Bus type</th>
                         
                             <th>Total Seats</th>
+                           
 
                             <th>Status</th>
                             <th>Action</th>
@@ -40,9 +41,10 @@
                         <tbody>
                           <tr>
                           <td>{{$loop->index + 1}}</td>
-                          <td>{{$bus->bus_name}}</td>
-                          <td>{{$bus->bus_code}}</td>
                           <td>{{$bus->operator->operator_name}}</td>
+                          <td>{{$bus->bus_code}}</td>
+                          <td>{{$bus->bus_type}}</td>
+                          
                           <td>{{$bus->total_seats}}</td>
                           <td>{{$bus->status}}</td>
                           <td>
@@ -92,13 +94,19 @@
                       <fieldset>
                       <div class="row">
                        
-                      <div class="col-md-6">
-                          <div class="form-group">
-                                <!-- <label for="exampleInputEmail1">Bus Name</label> -->
-                                <input name="bus_name"  class="form-control" aria-describedby="emailHelp"
-                                 placeholder="Enter Bus Name" type="text">
+                        <div class="col-md-6">
+                        <div class="form-group">
+                                <!-- <label for="exampleInputPassword1">Seat No</label> -->
+                                <select name="operator_id" class="form-control">
+                                    <option value="">Select Operator</option>
+                                    @foreach ($all_operator as $select_operator)
+                                    <option value="{{$select_operator->id}}">{{$select_operator->operator_name}}</option>
+                                    @endforeach
+                                </select>
                           </div>
-                          </div>
+                         
+                        </div>
+                      
                           <div class="col-md-6">
                           <div class="form-group">
                                 <!-- <label for="exampleInputEmail1">Bus Name</label> -->
@@ -115,18 +123,17 @@
                           </div>
                           </div>
                           
-                           <div class="col-md-6">
-                        <div class="form-group">
-                                <!-- <label for="exampleInputPassword1">Seat No</label> -->
-                                <select name="operator_id" class="form-control">
-                                    <option value="">Select Operator</option>
-                                    @foreach ($all_operator as $select_operator)
-                                    <option value="{{$select_operator->id}}">{{$select_operator->operator_name}}</option>
-                                    @endforeach
+                          
+                        <div class="col-md-6">
+                          <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Bus Name</label> -->
+                                <select  name="bus_type"  class="form-control">
+                                  <option value=" ">Bus type</option>
+                                  <option value="AC">AC</option>
+                                  <option value="Non-AC">Non-AC</option>
                                 </select>
                           </div>
-                         
-                        </div>
+                          </div>
 
                         <div class="col-md-12 ">
                           <button type="submit" class="btn btn-theme btn-block">Add Bus</button>
