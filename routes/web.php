@@ -19,8 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::get('/verifyTemplate', 'VerifyController@getVerify')->name('verifyTemplate');
-// Route::post('/verify', 'VerifyController@postVerify')->name('verify');
+
 
 
 
@@ -41,6 +40,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mi
 	Route::get('/dashboard','DashboardController@index')->name('dashboard');
 	Route::Resource('bus','BusController');
 	Route::Resource('operator','OperatorController');
+	Route::Resource('schedule','BusScheduleController');
+
+	 Route::get('/getBus', 'BusScheduleController@getBus')->name('getBus');
+	// Route::get('/getBus', 'BusScheduleController@getBus1');
 
 });
 

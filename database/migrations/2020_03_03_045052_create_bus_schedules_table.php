@@ -17,14 +17,15 @@ class CreateBusSchedulesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('bus_id');
             $table->integer('operator_id');
-            $table->integer('region_id');
-            $table->integer('sub_region_id');
-            $table->date('depart_date');
-            $table->date('return_date');
-            $table->time('depart_time');
-            $table->time('return_time');
-            $table->string('pickup_address');
-            $table->string('dropoff_address');
+            $table->time('time_schedule');
+            // $table->integer('region_id');
+            // $table->integer('sub_region_id');
+            // $table->date('depart_date');
+            // $table->date('return_date');
+            // $table->time('depart_time');
+            // $table->time('return_time');
+            // $table->string('pickup_address');
+            // $table->string('dropoff_address');
             $table->boolean('status')->default(0); // active
             $table->timestamps();
         });

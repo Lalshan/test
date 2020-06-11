@@ -28,7 +28,7 @@
             </li>
 
             <li class="sub-menu">
-                <a class="{{Request::is('admin/schedule')? 'active':''}}" href="{{-- {{route('admin.operator.index') }} --}}">
+                <a class="{{Request::is('admin/schedule')? 'active':''}}" href="{{route('admin.schedule.index') }}">
                     <span>Time Schedule</span>
                 </a>
             </li>

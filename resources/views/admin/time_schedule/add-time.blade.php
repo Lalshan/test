@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title','Add Operator')
+@section('title','Add Time Schedule')
 
 @push('css')
     
@@ -16,7 +16,7 @@
                 <div class="col-md-12">
                     <div class="content-panel">
                         <section class="content">
-                        <button class="btn btn-theme add" type="submit" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"> Add Operator</i></button>
+                        <button class="btn btn-theme add" type="submit" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"> Add Time Schedule</i></button>
                             
                         <table class="table table-striped table-advance table-hover">
                         <thead class="bg-success">
@@ -25,19 +25,18 @@
                        
                             <th>Operator Name</th>
                         
-                            <th>Operator Email</th>
+                            <th>Bus Code</th>
                        
                             <th>Operator Phone</th>
                         
-                            <th>Operator Address</th>
-                            <th>Operator Logo</th>
+                            <th>Time Schedule</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                         </thead>
-                        @forelse( $all_operator as $operator )
+                        {{-- @forelse( $all_operator as $operator ) --}}
                         <tbody>
-                          <tr>
+                         {{--  <tr>
                           <td>{{$loop->index + 1}}</td>
                           <td>{{$operator->operator_name}}</td>
                           <td>{{$operator->operator_email}}</td>
@@ -63,13 +62,13 @@
 
                          </td>
 
-                        </tr>
+                        </tr> --}}
                         </tbody>
-                      @empty
+                      {{-- @empty
                        <tr>
                            <td class="text-center" colspan="12"><h3 class="text-danger">No Operator Are available</h3></td>
                               </tr>
-                      @endforelse
+                      @endforelse --}}
                     </table>
                        </section>
 
@@ -81,53 +80,49 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title centered">Add New Operator</h4>
+          <h4 class="modal-title centered">Add Time Schedule</h4>
         </div>
         <div class="modal-body">
-         <form method="post" action="{{ route('admin.operator.store') }}" enctype="multipart/form-data">
+         <form method="post" action="{{ route('admin.schedule.store') }}" enctype="multipart/form-data">
                       {{ csrf_field() }}
                       <fieldset>
                       <div class="row">
                       <div class="col-md-6">
                           <div class="form-group">
                                 <!-- <label for="exampleInputEmail1">Bus Name</label> -->
-                                <input name="operator_name"  class="form-control" aria-describedby="emailHelp"
-                                 placeholder="Enter Operator Name" type="text">
+                                <select  name="operator_id" class="form-control">
+                                    <option value="0">--Select Operator--</option>
+                                      @foreach ($all_operator['data'] as $select_operator)
+                                        <option value="{{$select_operator->id}}">{{$select_operator->operator_name}}
+                                        </option>
+                                      @endforeach
+                                </select>
                           </div>
                           </div>
                           <div class="col-md-6">
                           <div class="form-group">
                                 <!-- <label for="exampleInputEmail1">Bus Name</label> -->
-                                <input name="operator_email"  class="form-control" aria-describedby="emailHelp" 
-                                placeholder="Enter Email" type="email">
+                                <select name="bus_id"  class="form-control">
+                                    {{-- <option value="0">--Select Bus--</option>
+                                    @foreach ($bus_list['data'] as $bus)
+                                    <option value="{{$bus->id}}">{{$bus->bus_code}}</option>
+                                    @endforeach --}}
+                                </select>
                           </div>
                           </div>
                           
                          
-                          <div class="col-md-6">
-                             <div class="form-group">
-                                <!-- <label for="exampleInputEmail1">Bus Name</label> -->
-                                <input name="operator_phone"  class="form-control" aria-describedby="emailHelp"
-                                 placeholder="Enter Mobile Number" type="text">
-                           </div>
-                          </div>
-                          
-                            <div class="col-md-6">
+                             <div class="col-md-6">
                               <div class="form-group">
-                              <label class="control-label">Image</label>
-                              <input type="file" name="operator_logo">
+                                <input type="time" name="time_schedule" class="form-control" aria-describedby="emailHelp" value="00:00">
+                              </div>
                             </div>
-                            </div>
+                          
+                            
 
                           </div>
                          <div class="row">
-                          <div class="col-md-12">
-                          <div class="form-group">
-                                <!-- <label for="exampleInputPassword1">Seat No</label> -->
-                                <textarea name="operator_address" rows="2" cols="20" class="form-control" 
-                                placeholder="Enter Operator Address" type="text"></textarea>
-                          </div>
-                          </div>
+                          
                            <div class="col-md-12 ">
                           <button type="submit" class="btn btn-theme btn-block">Add Operator</button>
                         </div>
@@ -156,6 +151,9 @@
 {{-- Modal Script --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+
 
 
 <script type="text/javascript">
@@ -191,8 +189,95 @@
   }
 </script>
 
+<script type="text/javascript">
+  $(function () {
+    var operator = $('select[name="operator_id"]'),
+        bus = $('select[name="bus_id"]');
+    bus.attr('disabled','disabled')
+    operator.change(function(){
+      var id= $(this).val();
+      console.log(id)
+    })
+  })
+  
+</script>
+
+
+{{-- <script type='text/javascript'>
+
+    $(document).ready(function(){
+
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token()}}"
+            }
+        });
+
+      // Department Change
+      $('#operator_id').change(function(){
+
+         // Department id
+         var id = $(this).val();
+
+         // Empty the dropdown
+         $('#bus_id').find('option').not(':first').remove();
+
+         // AJAX request 
+         $.ajax({
+           url: 'admin/getBus/'+id,
+           type: 'get',
+           dataType: 'json',
+           success: function(response){
+
+             var len = 0;
+             if(response['data'] != null){
+               len = response['data'].length;
+             }
+
+             if(len > 0){
+               // Read data and create <option >
+               for(var i=0; i<len; i++){
+
+                 var id = response['data'][i].id;
+                 var name = response['data'][i].bus_code;
+
+                 var option = "<option value='"+id+"'>"+bus_code+"</option>"; 
+
+                 $("#bus_id").append(option); 
+               }
+             }
+
+           }
+        });
+      });
+
+    });
+
+    </script> --}}
+
+
+
+
 
 @endpush
   
   
-  
+  						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+							
